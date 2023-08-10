@@ -1,25 +1,25 @@
 package com.packt.cardatabase.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 
 @Entity
-public class Car {
-//1대다 관계용
+public class Car2 {
+//다대다 관계용
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "owner")
-	private Owner owner;
+	@ManyToMany(mappedBy = "cars")
+	private Set<Owner2> owners = new HashSet<Owner2>();
 	
 	private String brand, model, color, registerNumber;
 	
@@ -28,11 +28,11 @@ public class Car {
 	
 	private int price;
 	
-	public Car() {	}
+	public Car2() {	}
 
-	public Car(Owner owner, String brand, String model, String color, String registerNumber, int year, int price) {
+
+	public Car2(String brand, String model, String color, String registerNumber, int year, int price) {
 		super();
-		this.owner = owner;
 		this.brand = brand;
 		this.model = model;
 		this.color = color;
@@ -41,12 +41,12 @@ public class Car {
 		this.price = price;
 	}
 
-	public Owner getOwner() {
-		return owner;
+	public Set<Owner2> getOwners() {
+		return owners;
 	}
 
-	public void setOwner(Owner owner) {
-		this.owner = owner;
+	public void setOwners(Set<Owner2> owners) {
+		this.owners = owners;
 	}
 
 	public long getId() {
