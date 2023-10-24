@@ -46,18 +46,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	}
 	
 	@Override
-	protected void configure(HttpSecurity http) throws Exception{ 
+	protected void configure(HttpSecurity http) throws Exception{
+		
+		// 모든 사용자가 모든 엔드포인트에 접근할 수 있게 한다.
 		http.csrf().disable().cors().and()
-			.sessionManagement()
-			.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-			.authorizeRequests()
-			// /login 엔드포인트에 대한 POST 요청은 보호되지 않음.
-			.antMatchers(HttpMethod.POST, "/login").permitAll()
-			// 다른 모든 요청은 보호됨
-			.anyRequest().authenticated().and()
-			.exceptionHandling()
-			.authenticationEntryPoint(exceptionHandler).and()
-			.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+			.authorizeRequests().anyRequest().permitAll();
+		
+//		http.csrf().disable().cors().and()
+//			.sessionManagement()
+//			.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+//			.authorizeRequests()
+//			// /login 엔드포인트에 대한 POST 요청은 보호되지 않음.
+//			.antMatchers(HttpMethod.POST, "/login").permitAll()
+//			// 다른 모든 요청은 보호됨
+//			.anyRequest().authenticated().and()
+//			.exceptionHandling()
+//			.authenticationEntryPoint(exceptionHandler).and()
+//			.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 	
 	// 클래스에 전역 CORS 필터 추가
